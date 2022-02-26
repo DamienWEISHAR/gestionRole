@@ -5,8 +5,11 @@ define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS'])? "https" : "h
 "://".$_SERVER['HTTP_HOST'].$_SERVER["PHP_SELF"]));
 
 require_once ("./controllers/Toolbox.class.php");
+require_once ("./controllers/Securite.class.php");
 require_once("./controllers/Visiteur/Visiteur.controller.php");
+require_once("./controllers/Utilisateur/Utilisateur.controller.php");
 $visiteurController = new VisiteurController();
+$utilisateurController = new UtilisateurController();
 
 
 
@@ -25,7 +28,9 @@ try {
         break;
         case "validation_login":
             if(!empty($_POST['login']) && !empty($_POST['password'])){
-                // $visiteurController->validation_login();
+                $login = Securite::secureHTML($_POST['login']);
+                $password = Securite::secureHTML($_POST['password']);
+                $utilisateurController->validation_login($login, $password);
             }else{
                 Toolbox::ajouterMessageAlerte("Login ou MDP non renseigné", Toolbox::COULEUR_ROUGE);
                 header('Location:' .URL. "login");
