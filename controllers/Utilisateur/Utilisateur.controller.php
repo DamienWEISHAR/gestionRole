@@ -48,6 +48,15 @@ class UtilisateurController extends MainController{
     }
 
 
+    public function deconnexion(){
+        Toolbox::ajouterMessageAlerte("Déconnexion réussie", Toolbox::COULEUR_ORANGE);
+        unset($_SESSION['profil']);
+        header('Location:'.URL."accueil");
+    }
+
+        public function validation_creerCompte($login, $password, $mail){
+            //test de véfification: login déjà présent en bdd?
+        }
 
     //récupération de la fonction protected pageErreur dans la classe parent/mère
     //donc obligé de refaire une fonction qui appelle cette fonction-là

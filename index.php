@@ -36,13 +36,38 @@ try {
                 header('Location:' .URL. "login");
             }
         break;
-        case "compte" : 
-            switch($url[1]){
-                case "profil": 
-                    $utilisateurController->profil();
-                break;              
-                default : throw new Exception("La page n'existe pas");
+        case "creerCompte":    $visiteurController->creerCompte();
+        break;
+        case "validation_creerCompte":
+            if(!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['mail'])){
+                $login = Securite::secureHTML($_POST['login']);
+                $password = Securite::secureHTML($_POST['password']);
+                $mail = Securite::secureHTML($_POST['mail']);
+                $utilisateurController->validation_creerCompte($login, $password, $mail);
+            } else{
+                Toolbox::ajouterMessageAlerte("Veuillez remplir tous les champs!", Toolbox::COULEUR_ROUGE);
+                header ('Location:'.URL."creerCompte");
+
             }
+        break;
+        case "compte" :
+            if(!Securite::estConnecte()){ //si l'utilisateur n'est pas connecté
+                Toolbox::ajouterMessageAlerte("Veuillez vous connecter", Toolbox::COULEUR_ROUGE);
+                header('Location:'.URL."login");
+            } else{
+                switch($url[1]){
+                    case "profil": 
+                        $utilisateurController->profil();
+                    break;                                
+                    case "deconnexion":
+                        $utilisateurController->deconnexion();
+                    break;
+                    default : throw new Exception("La page n'existe pas");
+                }
+            }
+            
+
+
         break;
         
         default : throw new Exception("La page n'existe pas");

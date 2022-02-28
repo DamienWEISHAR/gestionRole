@@ -13,9 +13,15 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="<?= URL ?>login">Se connecter</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="<?= URL ?>creerCompte">Créer compte</a>
+          </li>
         <?php else : ?>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="<?= URL ?>compte/profil">Profil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="<?= URL ?>compte/deconnexion">Se déconnecter</a>
           </li>
         <?php endif; ?>
         <li class="nav-item">
