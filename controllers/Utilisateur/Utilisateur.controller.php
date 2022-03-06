@@ -55,7 +55,22 @@ class UtilisateurController extends MainController{
     }
 
         public function validation_creerCompte($login, $password, $mail){
-            //test de véfification: login déjà présent en bdd?
+            //test de vérification: login déjà présent en bdd?
+            if($this->utilisateurManager->verifLoginDisponible($login)){
+                //hachage du password
+                $passwordCrypte=password_hash($password, PASSWORD_DEFAULT);
+                $clef = rand(0,9999);
+                //vérification si compte a été créé
+                if($this->utilisateurManager->bdCreerCompte($login, $passwordCrypte, $mail, $clef)){
+
+                }else{
+                    Toolbox::ajouterMessageAlerte("Login déjà utilisé", Toolbox::COULEUR_ROUGE);
+                header('Location:'.URL."creerCompte");
+                }
+            }else{
+                Toolbox::ajouterMessageAlerte("Erreur lors de la création du compte, recommencez svp!", Toolbox::COULEUR_ROUGE);
+                header('Location:'.URL."creerCompte");
+            }
         }
 
     //récupération de la fonction protected pageErreur dans la classe parent/mère
