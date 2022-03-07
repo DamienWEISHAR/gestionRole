@@ -56,6 +56,10 @@ class UtilisateurManager extends MainManager{
         $stmt ->bindValue(":password", $passwordCrypte, PDO::PARAM_STR);
         $stmt ->bindValue(":mail", $mail, PDO::PARAM_STR);
         $stmt ->bindValue(":clef", $clef, PDO::PARAM_INT);
+        $stmt ->execute();
+        $estModifier = ($stmt->rowCount() > 0); //si +0 c'est true donc modifié, si 0 c'est false donc requête pas effectuée
+        $stmt->closeCursor();
+        return $estModifier;
 
     }
 } 
